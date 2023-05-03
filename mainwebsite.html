@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WorldExpansionBrowserTest</title>
+        <style>
+            canvas {
+                border: 1px solid black;
+                display: block;
+            }
+        </style>
+    </head>
+<body style="text-align:center;">
+    <h1 style="color:green;">  
+            WorldExpansionBrowserTest 1.0.0
+    </h1>
+    Name:<input type="text" id="myText" value="Mickey">
+    <button type="button" onclick= sendMessage()>Try it</button>
+    <p id="demo">
+
+</p>
+<canvas id="canvas" width="2000" height="1500"></canvas>
+  <script>
+       const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // Prompt the user for a color
+      const color = prompt("Enter a color:");
+
+      // Set the fill color to the user input
+      ctx.fillStyle = color;
+
+      // Add event listener to canvas to listen for mouse clicks
+      canvas.addEventListener("mousedown", function (e) {
+        // Get the mouse position
+        const mouseX = e.pageX - this.offsetLeft;
+        const mouseY = e.pageY - this.offsetTop;
+
+        // Draw a circle at the mouse position
+        ctx.beginPath();
+        ctx.arc(mouseX, mouseY, 20, 0, 2 * Math.PI);
+        ctx.fill();
+        const url = 'update.php';
+const data = { color : color , mouseX: mouseX,mouseY:mouseY };
+
+fetch(url, {
+  method: 'POST', // HTTP request method
+  body: JSON.stringify(data), // Data to send in the request body
+  headers: {
+    'Content-Type': 'application/json' // Tell server that the data is in JSON format
+  }
+})
+      });
+      function sendMessage(){
+   document.getElementById("demo").innerHTML = document.getElementById('myText').value;
+   const url = 'chat.php';
+   const data = { message : document.getElementById('myText').value };
+
+   fetch(url, {
+    method: 'POST', // HTTP request method
+    body: JSON.stringify(data), // Data to send in the request body
+    headers: {
+    'Content-Type': 'application/json' // Tell server that the data is in JSON format
+   }
+})
+}
+     const source = new EventSource('thecolorchanged.php');
+
+source.onmessage = function(event) {
+  const data = JSON.parse(event.data);
+  console.log(data)
+  ctx.fillStyle = data.color;
+    
+   ctx.beginPath();
+   ctx.arc(data.mouseX,data.mouseY, 20, 0, 2 * Math.PI);
+   ctx.fill();
+}
+const source2 = new EventSource('chatchanged.php');
+
+source2.onmessage = function(event) {
+  const data = JSON.parse(event.data);
+  console.log(data)
+  document.getElementById("demo").innerHTML = data.message
+}
+
+	</script>
+</body>
+  
+</html> 

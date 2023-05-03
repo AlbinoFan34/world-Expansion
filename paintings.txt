@@ -1,0 +1,9 @@
+
+{"color":"blue","mouseX":329,"mouseY":172}
+{"color":"blue","mouseX":222,"mouseY":231}
+{"color":"blue","mouseX":189,"mouseY":332}
+{"color":"blue","mouseX":556,"mouseY":160}
+{"color":"blue","mouseX":604,"mouseY":449}
+{"color":"blue","mouseX":533,"mouseY":701}
+{"color":"blue","mouseX":545,"mouseY":81}
+{"color":"blue","mouseX":668,"mouseY":99}
